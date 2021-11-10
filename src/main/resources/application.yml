@@ -83,5 +83,5 @@ jwt:
   tokenHead: Bearer
   tokenHeader: Authorization
   expiration: 5184000
-  secret: aHR0cHM6Ly9teS5vc2NoaW5hLm5ldC91LzM2ODE4Njg=
+  secret: 秘钥
 
