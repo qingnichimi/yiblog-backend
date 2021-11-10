@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tws.springbootdemo.mapper.CategoryMapper">
+    <select id="getAllCategory" resultType="Category">
+        select * from category
+    </select>
+
+    <delete id="deleteCategory" parameterType="java.util.List">
+        delete from category where id = #{cids}
+        <!--        <foreach collection="array" open="(" close=")" separator="," item="aid">-->
+        <!--            #{aid}-->
+        <!--        </foreach>-->
+    </delete>
+
+    <insert id="addCategory" parameterType="Category">
+        insert into category(id=#{id},catename=#{cateName},create_time=#{create_time})
+    </insert>
+
+    <select id="getCategoryById" parameterType="Long">
+        select * from category where id=#{id}
+    </select>
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tws.springbootdemo.mapper.ArticleMapper">
+    <insert id="addNewArticle" parameterType="Article" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO article SET title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},summary=#{summary},cid=#{cid},uid=#{uid},publish_time=#{publish_time},state=#{state}
+    </insert>
+
+    <update id="updateArticle" parameterType="Article">
+        UPDATE article SET
+        title=#{title},mdContent=#{mdContent},htmlContent=#{htmlContent},summary=#{summary},cid=#{cid},editTime=#{editTime}
+        <if test="state==1">
+            ,state=1
+        </if>
+        <if test="publish_time!=null">
+            ,publish_time=#{publish_time}
+        </if>
+        WHERE id=#{id}
+    </update>
+
+    <select id="getArticleById" parameterType="long" resultType="Article">
+        select a.id,title,mdContent,htmlContent,summary,publish_time,c.catename
+        from article a left join category c
+            on a.cid = c.id where a.id=#{aid}
+    </select>
+
+    <select id="getAllArticles" resultType="Article">
+        select a.id,title,mdContent,htmlContent,summary,publish_time,c.catename
+        from article a left join category c
+            on a.cid = c.id
+    </select>
+
+    <delete id="deleteArticle" parameterType="java.util.List">
+        delete from article where id = #{aids}
+<!--        <foreach collection="array" open="(" close=")" separator="," item="aid">-->
+<!--            #{aid}-->
+<!--        </foreach>-->
+    </delete>
+
+    <select id="getArticleByCid" parameterType="Long" >
+        select a.id,title,mdContent,htmlContent,summary,publish_time,c.catename
+        from article a left join category c
+            on a.cid = c.id where a.cid=#{cid}
+    </select>
+</mapper>
