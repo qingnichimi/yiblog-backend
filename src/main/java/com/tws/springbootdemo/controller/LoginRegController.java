@@ -27,7 +27,7 @@ public class LoginRegController {
     private String tokenHead;
     @RequestMapping("/doLogin")
     public CommonResult login(@RequestBody UserLoginParam userLoginParam) {
-        String token = userService.login(userLoginParam.getUsername(),userLoginParam.getPassword());
+        String token = userService.login(userLoginParam.getUsername(),userLoginParam.getPassword(),userLoginParam.getCode(),userLoginParam.getUuid());
         if(token == null) {
             return CommonResult.validateFailed("用户名或密码错误");
         }

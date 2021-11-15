@@ -1,6 +1,7 @@
 package com.tws.springbootdemo.service;
 
 import com.tws.springbootdemo.common.CommonResult;
+import com.tws.springbootdemo.common.Constants;
 import com.tws.springbootdemo.common.utils.JwtTokenUtil;
 import com.tws.springbootdemo.entity.Permission;
 import com.tws.springbootdemo.entity.User;
@@ -66,8 +67,11 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public String login(String username, String password) {
+    public String login(String username, String password, String code, String uuid) {
         String token = null;
+        if(!validateCaptcha(uuid,code)) {
+            return token;
+        }
         try {
             UserDetails userDetails = userDetailsService.loadUserByUsername(username);
             if(!passwordEncoder.matches(password,userDetails.getPassword())) {
@@ -117,5 +121,22 @@ public class UserServiceImpl implements UserService{
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         user.setEnabled(true);
         return userMapper.register(user);
+    }
+
+    public boolean validateCaptcha(String uuid, String code) {
+        String verifyKey = Constants.CAPTCHA_CODE_KEY + uuid;
+        String captcha = (String) redisService.get(verifyKey);
+        System.out.println(uuid);
+        System.out.println(captcha);
+        redisService.del(verifyKey);
+        if(captcha == null) {
+            System.out.println("验证码已过期");
+            return false;
+        }
+        if(!code.equals(captcha)) {
+            System.out.println("验证码错误");
+            return false;
+        }
+        return true;
     }
 }

@@ -1,10 +1,13 @@
 package com.tws.springbootdemo.common;
 
+import java.io.Serializable;
+
 /**
  * @author taoweishu
  * @date 2021/10/24 - 21:31
  */
-public class CommonResult<T> {
+public class CommonResult<T> implements Serializable {
+    private static final long serialVersionUID = 1L;
     private long code;
     private String message;
     private T data;

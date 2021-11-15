@@ -3,6 +3,7 @@ package com.tws.springbootdemo.service;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author taoweishu
@@ -12,7 +13,7 @@ public interface RedisService {
     /**
      * 保存属性
      */
-    void set(String key, Object value, long time);
+    void set(String key, Object value, long time, TimeUnit timeUnit);
 
     /**
      * 保存属性

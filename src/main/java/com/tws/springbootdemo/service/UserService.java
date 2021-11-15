@@ -16,7 +16,7 @@ public interface UserService {
     User getUserById(Long id);
     User loadUserByUsername(@Param("username") String username);
     List<Permission> getPermissionList(Long id);
-    String login(String username, String password);
+    String login(String username, String password, String code, String uuid);
     CommonResult generateAuthCode(String telephone);
 
     CommonResult verifyAuthCode(String telephone, String authCode);
