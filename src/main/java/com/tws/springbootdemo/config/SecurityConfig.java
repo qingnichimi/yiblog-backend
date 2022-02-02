@@ -15,7 +15,6 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -33,11 +32,10 @@ import java.util.List;
  */
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled=true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     UserService userService;
-    @Resource
     private RestfulAccessDeniedHandler restfulAccessDeniedHandler;
     @Resource
     private RestAuthenticationEntryPoint restAuthenticationEntryPoint;
@@ -62,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                         "/v2/api-docs/**"
                 )
                 .permitAll()
-                .antMatchers("/doLogin", "/register","/article/all","/article/","/category","/category/all")// 对登录注册要允许匿名访问
+                .antMatchers("/doLogin", "/register", "/article/all", "/article/{aid}", "/category", "/category/all","/getCode")// aa对登录注册要允许匿名访问
                 .permitAll()
                 .antMatchers(HttpMethod.OPTIONS)//跨域请求会先进行一次options请求
                 .permitAll()
@@ -101,7 +99,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             User user = userService.loadUserByUsername(username);
             if (user != null) {
                 List<Permission> permissionList = userService.getPermissionList(user.getId());
-                return new MyUserDetails(user,permissionList);
+                return new MyUserDetails(user, permissionList);
             }
             throw new UsernameNotFoundException("用户名或密码错误");
         };
@@ -109,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //在用户名和密码校验前添加的过滤器，如果有jwt的token，会自行根据token信息进行登录。
     @Bean
-    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter(){
+    public JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter() {
         return new JwtAuthenticationTokenFilter();
     }
 

@@ -4,7 +4,6 @@ import com.tws.springbootdemo.common.CommonResult;
 import com.tws.springbootdemo.entity.Permission;
 import com.tws.springbootdemo.entity.User;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 

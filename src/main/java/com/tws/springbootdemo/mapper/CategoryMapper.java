@@ -2,6 +2,7 @@ package com.tws.springbootdemo.mapper;
 
 import com.tws.springbootdemo.entity.Category;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -14,5 +15,5 @@ public interface CategoryMapper {
     List<Category> getAllCategory();
     int deleteCategory(Long cids);
     int addCategory(Category category);
-    Category getCategoryById(Long id);
+    Category getCategoryById(@Param("id") Long id);
 }

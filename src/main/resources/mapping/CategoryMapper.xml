@@ -18,7 +18,7 @@
         insert into category(id=#{id},catename=#{cateName},create_time=#{create_time})
     </insert>
 
-    <select id="getCategoryById" parameterType="Long">
+    <select id="getCategoryById" parameterType="Long" resultType="Category">
         select * from category where id=#{id}
     </select>
 </mapper>
